@@ -13,7 +13,7 @@ def hello_world():
     else:
         return "No Data"
 
-@app.route('/home/<name>')
+@app.route('/home/<name>', methods=['POST'])
 def home(name):
     if name == "brie":
         data = request.get_json()
@@ -22,7 +22,11 @@ def home(name):
             if data.get('username') in ValidLogins:
                 if data.get('password') == ValidLogins.get(data.get('username')):
                     #successful lookup
-                    return "authenticated\n"
-        return "not authenticated\n"
+                    return "Authenticated\n"
+                return "Not Authenticated\n"
+            else:
+                return "Unknown User\n"
+        else:
+            return "Missing JSON key. expected \"username\" and \"password\" to be present\n"
     elif name == "olivia":
         return "no function"
